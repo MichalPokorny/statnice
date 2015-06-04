@@ -1,0 +1,202 @@
+\documentclass[a4paper,10pt,titlepage]{article} \usepackage[utf8]{inputenc}
+\usepackage{a4wide} \usepackage[czech]{babel}
+\usepackage[small,compact]{titlesec}
+
+\usepackage{graphicx}
+\usepackage{amsthm}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+
+\newtheorem{theorem}{Věta}
+\newtheorem{define}{Definice}
+\newtheorem*{notation}{Značení}
+\newtheorem*{example}{Příklad}
+\newtheorem*{remark}{Poznámka}
+
+\begin{document} \pagestyle{empty}
+\begin{center}
+\textbf{Pravděpodobnost}
+\end{center}
+
+\begin{define}
+(Pravděpodobnostní prostor)
+
+$\Omega$ - množina možných výsledků, prvky jsou elementární jevy
+$\mathbb{A} \subset \Omega$ je náhodný jev.
+Chceme aby platily následující:
+\begin{enumerate}
+\item $\emptyset \in \mathbb{A}$,
+\item $A \in \mathbb{A} \implies \Omega \setminus A \in \mathbb{A}$,
+\item $A_1, \ldots A_n \in \mathbb{A} \implies \bigcup A_i \in \mathbb{A}$,
+\item $P(\emptyset) = 0$,
+\item $P(\Omega) = 1$,
+\item $P\left(\bigcup_{i=1}^{\infty} A_i\right) = \sum_{i=1}^{\infty} P(A_i)$.
+\end{enumerate}
+\end{define}
+
+\begin{define}
+(Podmíněná pravděpodobnost)
+\[
+	P(A|B) = \frac{P(A \cap B)}{P(B)}
+\]
+\end{define}
+
+\begin{define}
+(Nezávislost náhodných jevů)
+\[
+P(A \cap B) = P(A) \cdot P(B)
+\]
+\end{define}
+
+\begin{theorem}
+(Věta o úplné pravděpodobnosti)
+Předpoklady:
+\[
+	\bigcup B_i = \Omega \wedge B_i \cap B_j =\emptyset i\neq j
+\]
+Věta:
+\[
+P(A) = \sum P(A \cap B_i) = \sum P(A|B_i) \cdot B_i
+\]
+\end{theorem}
+
+\begin{theorem}
+(Bayesova věta)
+Předpoklady:
+\[
+	\bigcup B_i = \Omega \wedge B_i \cap B_j =\emptyset i\neq j
+\]
+Věta:
+\[
+P(B_i|A) =\frac{P(B_i \cap A)}{P(A)} = \frac{P(A|B_i)\cdot P(B_i)}{\sum P(A|B_j) \cdot B_j}
+\]
+\end{theorem}
+
+\begin{define}
+(Náhodná veličina)
+
+Funkce $f: \Omega \rightarrow \mathbb{R}$ taková, že ... TODO!!!
+\end{define}
+
+\begin{define}
+(Spojitá náhodná veličina)
+
+hustota - fce $f: \Omega \rightarrow \mathbb{R}$ ?? taková, že $\int_{\Omega} f dx = 1$.
+\end{define}
+
+\begin{define} 
+(Střední hodnota náhodné veličiny)
+
+Diskrétní náhodná veličina:
+\[
+	\mathbb{E}[X] = \sum x_i \cdot P(X = x_i)
+\]
+Spojitá náhodná veličina: ($f$ je hustota)
+\[
+	\mathbb{E}[X] = \int x_i \cdot f(x_i) dx
+\]
+\end{define}
+
+\begin{remark}
+Vlastnosti střední hodnoty - pro $X,Y$ nezávislé:
+
+\[
+\mathbb{E}[\alpha \cdot X + Y] = \alpha \cdot \mathbb{E}[X] + \mathbb{E}[Y]
+\]
+\end{remark}
+
+\begin{define} 
+(Rozptyl náhodné veličiny)
+\[
+	var(X) = \mathbb{E}[(X - \mathbb{E} (X))^2]
+\]
+\end{define}
+
+\begin{define}
+(Rozdělení náhodných veličin)
+
+Rozdělení - $P(X = x)$ u diskrétní n.v., a hustota u spojité náhodné veličiny
+
+Distribuční funkce - $P(X \leq x)$
+
+\end{define}
+
+\begin{define}
+(Korelace, Kovariance)
+\[
+cov(X,Y) = \mathbb{E}[(X-\mathbb{E}[X])(Y-\mathbb{E}[Y])]
+\]
+\[
+cor(X,Y) = \frac{cov(X,Y)}{\sqrt{var(X)var(Y)}}
+\]
+\end{define}
+
+\section{Rozdělení náhodné veličiny}
+
+\subsection{Diskrétní}
+
+{\sc{Geometrické}}
+
+$Ge(P)$ - házím, dokud nepadne
+
+$P[X=k] = p^k \cdot (1-p)^{k-1}$
+
+$\mathbb{E}[X] = \frac{1-p}{p}$
+
+$var(x) = \frac{1-p}{p^2}$
+
+
+{\sc{Binomické}}
+
+$Bi(P)$ - střílí střelci na terč, rozdělení tref
+
+$P[X=k] = \binom{n}{k} p^k \cdot (1-p)^{n-k}$
+
+$\mathbb{E}[X] = n\cdot p$
+
+$var(x) = n \cdot p \cdot (1-p)$
+
+{\sc{Poissonovo}}
+
+$Po(P)$ 
+
+$P[X=k] = \frac{\lambda ^k}{k!} \cdot e^{-\lambda}$
+
+$\mathbb{E}[X] = \lambda$
+
+$var(x) =\lambda$
+
+\subsection{Spojité}
+
+{\sc{Rovnoměrné}}
+
+$f(x) = 1$ právě tehdy, když $x \in (0,1)$
+
+$F(x) = x$ pro $x \in [0,1]$
+
+$\mathbb{E}[X] = \frac{1}{2}$
+
+$var(x) = \frac{1}{12}$ - ukáže se prostě dosazením do vzorce
+
+\medskip
+
+{\sc{Exponenciální}}
+
+$f(x) = \lambda \cdot e^{-\lambda x}$
+
+$\mathbb{E}[X] = \frac{1}{\lambda}$
+
+$var(x) = \frac{1}{\lambda^2}$
+
+{\sc{Normální rozdělení}}
+$(N(\mu , \sigma ^2)$, standartně $N(0,1)$
+
+$f(x) = \frac{1}{\sqrt{2 \pi \sigma ^2}} \cdot e^{-\frac{(x-\mu )^2}{2 \sigma ^2}}$
+
+$\mathbb{E}[X] = \mu$
+
+$var(x) = \sigma ^2$
+
+\end{document} 
+
