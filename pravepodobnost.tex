@@ -85,7 +85,7 @@ Funkce $f: \Omega \rightarrow \mathbb{R}$ taková, že ... TODO!!!
 hustota - fce $f: \Omega \rightarrow \mathbb{R}$ ?? taková, že $\int_{\Omega} f dx = 1$.
 \end{define}
 
-\begin{define} 
+\begin{define}
 (Střední hodnota náhodné veličiny)
 
 Diskrétní náhodná veličina:
@@ -98,6 +98,15 @@ Spojitá náhodná veličina: ($f$ je hustota)
 \]
 \end{define}
 
+\begin{define}
+(Moment)
+
+$k$-tý moment náhodné veličiny je $\mathbb{E}[X^k]$.
+$k$-tý centrální moment je $\mathbb{E}[(X-\mathbb{E}[X])^k]$.
+\end{define}
+
+Speciálně očekávaná hodnota je 1. moment a rozptyl je 2. centrální moment.
+
 \begin{remark}
 Vlastnosti střední hodnoty - pro $X,Y$ nezávislé:
 
@@ -106,7 +115,7 @@ Vlastnosti střední hodnoty - pro $X,Y$ nezávislé:
 \]
 \end{remark}
 
-\begin{define} 
+\begin{define}
 (Rozptyl náhodné veličiny)
 \[
 	var(X) = \mathbb{E}[(X - \mathbb{E} (X))^2]
@@ -119,6 +128,9 @@ Vlastnosti střední hodnoty - pro $X,Y$ nezávislé:
 Rozdělení - $P(X = x)$ u diskrétní n.v., a hustota u spojité náhodné veličiny
 
 Distribuční funkce - $P(X \leq x)$
+
+"Inverze" distribuční funkce je kvantilová funkce: dostane pravděpodobnost $p$,
+a vrátí hodnotu $x$, že $P(X\leq x)=p$.
 
 \end{define}
 
@@ -198,5 +210,45 @@ $\mathbb{E}[X] = \mu$
 
 $var(x) = \sigma ^2$
 
-\end{document} 
+Teorie odhadů.
 
+Nezávislé náhodné veličiny $X_1\ldots X_N$ ze stejného rozdělení jsou náhodný výber.
+Na základě výběru můžeme dělat \textbf{odhad} na nějakou vlastnost
+$\theta\in\Theta$ toho rozdělení.
+
+\begin{define}(Odhady)
+Bodový odhad prostě tipne hodnotu $\theta$. Intervalové odhady řeknou
+nějaký interval a pravděpodobnost, že se trefily.
+\end{define}
+
+\begin{define}
+Bodový odhad $T_n(X_1,\ldots X_N)$ je nestranný, když $\mathbb{E}[T_n(X_1,\ldots
+N)]=\mathbb{E}_{\theta}T_n=\theta$ pro všechna $\theta\in\Theta$.
+\end{define}
+
+\begin{define}
+Konzistentní bodové odhady: pro $N\rightarrow\infty$ a $\forall\varepsilon>0,
+\theta\in\Theta$:
+$P(|T_n-\Theta|>\varepsilon)\rightarrow 0$.
+\end{define}
+
+Metoda maximální věrohodnosti: $\theta$ odhadneme tak, aby naše $X_i$ byla
+co nejvěrohodnější: $T_n=\arg\max_\theta \prod_{i} f(X_i,\theta)$.
+Zlogaritmování zachová maximální věrohodnost: $T_n=\arg\max\sum\log
+f(X_i,\theta)$.
+
+Momentová metoda: odhadujeme $k$-tý moment jako $\frac{1}{n}\sum_{i=1}^n X_i^k$.
+
+\begin{define}(Intervaly spolehlivosti)
+
+Interval spolehlivosti je nějaký interval, do kterého $\theta$ padne
+s předem danou pravděpodobností $1-\alpha$. Speciálně se často volí
+$\alpha=0.05$.
+\end{define}
+
+TODO: V papírech ze cvičení je obecná konstrukce intervalu spolehlivosti
+přes pomocnou funkci $h$.
+
+TODO: intervaly spolehlivosti, testovani hypotez, T-test, $\chi^2$ test, linearni regrese.
+
+\end{document}
