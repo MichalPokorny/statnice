@@ -127,7 +127,7 @@ Vlastnosti střední hodnoty - pro $X,Y$ nezávislé:
 
 Rozdělení - $P(X = x)$ u diskrétní n.v., a hustota u spojité náhodné veličiny
 
-Distribuční funkce - $P(X \leq x)$
+Distribuční funkce - $P(X \leq x)$, počítá se jako integrál hustoty
 
 "Inverze" distribuční funkce je kvantilová funkce: dostane pravděpodobnost $p$,
 a vrátí hodnotu $x$, že $P(X\leq x)=p$.
@@ -161,7 +161,7 @@ $var(x) = \frac{1-p}{p^2}$
 
 {\sc{Binomické}}
 
-$Bi(P)$ - střílí střelci na terč, rozdělení tref
+$Bi(P)$ - střílí střelci na terč, rozdělení tref (resp. součet $n$ alternativních)
 
 $P[X=k] = \binom{n}{k} p^k \cdot (1-p)^{n-k}$
 
@@ -214,11 +214,13 @@ Teorie odhadů.
 
 Nezávislé náhodné veličiny $X_1\ldots X_N$ ze stejného rozdělení jsou náhodný výber.
 Na základě výběru můžeme dělat \textbf{odhad} na nějakou vlastnost
-$\theta\in\Theta$ toho rozdělení.
+$\theta\in\Theta$ toho rozdělení. Odhad je jakákoli funkce, která nezávisí na
+odhadovaném parametru $\theta$ (skoro vždy závisí na náhodném výběru).
 
 \begin{define}(Odhady)
-Bodový odhad prostě tipne hodnotu $\theta$. Intervalové odhady řeknou
-nějaký interval a pravděpodobnost, že se trefily.
+Bodový odhad prostě tipne jedinou hodnotu $\theta$. Intervalové odhady řeknou 
+(pro dopředu známou pravděpodobnost) nějaký interval, do kterého se s danou
+pravdpodobností trefíme.
 \end{define}
 
 \begin{define}
@@ -232,12 +234,18 @@ Konzistentní bodové odhady: pro $N\rightarrow\infty$ a $\forall\varepsilon>0,
 $P(|T_n-\Theta|>\varepsilon)\rightarrow 0$.
 \end{define}
 
+Pozn.: průměr náh. výběru je dobrý odhad střední hodnoty
+
+Pozn.: výběrový rozptyl je dobrý odhad rozptylu
+
 Metoda maximální věrohodnosti: $\theta$ odhadneme tak, aby naše $X_i$ byla
 co nejvěrohodnější: $T_n=\arg\max_\theta \prod_{i} f(X_i,\theta)$.
 Zlogaritmování zachová maximální věrohodnost: $T_n=\arg\max\sum\log
 f(X_i,\theta)$.
 
 Momentová metoda: odhadujeme $k$-tý moment jako $\frac{1}{n}\sum_{i=1}^n X_i^k$.
+Řeší se jako soustava $k$ rovnic (resp. $k$ prvních momentů) pokud odhadujeme
+$k$ parametrů.
 
 \begin{define}(Intervaly spolehlivosti)
 
@@ -247,29 +255,55 @@ $\alpha=0.05$.
 \end{define}
 
 TODO: V papírech ze cvičení je obecná konstrukce intervalu spolehlivosti
-přes pomocnou funkci $h$.
+přes pomocnou funkci $h$. AFAIK jsme odhadovali pouze střední hodnotu
+(obecný parametr je velmi složitý)
 
 TODO: intervaly spolehlivosti; konstrukce pro normalni rozdeleni
 
 Testování hypotéz.
 
 Hypotéza je výrok, jehož platnost chceme rozhodnout na základě dat.
-Obvykle: nulová hypotéza $H_0$, alternativní hypotéza $H_1$.
+Obvykle: nulová hypotéza $H_0$, alternativní hypotéza $H_1$. Pozor,
+alternativa nemusí být negace nulové hypotézy.
 
 Naše rozhodnutí můžou být A) zamítnout $H_0$, nebo B) nezamítnout $H_0$.
+Nezamítnutí hypotézy neznamená její platnost - pouze říká, že nemáme dostatek
+důkazů pro její zamítnutí (toto je klíčové!!!). Např. nám chybí dost dat.
+
 Chyba 1. druhu je zamítnout $H_0$ když platí, 2. druh je nezamítnutí $H_0$
 když $H_0$ neplatí. Chyba 1. druhu je vážnější -- je horší si myslet,
 že $H_1$ platí, když neplatí, než si myslet, že $H_1$, když ve skutečnosti
 $H_0$.
 
-Hladina testu $\alpha$: pravděpodobnost chyby 1. druhu.
-$\beta$: chyba 2. druhu.
+Hladina testu $\alpha$: pravděpodobnost chyby 1. druhu. Pzoro!!! hladinu
+musíme nastavit ještě než začneme testovat! (to platí i pro p-value dále).
+Síla testu $\beta$: chyba 2. druhu.
 
-Ze statistického testu vypadne $p$-hodnota: pravděpodobnost, že bychom dostali
+Příklad ze života (prof. Antoch) - Soudíme podezřelého. Platí presumpce neviny,
+tzn. $H_0$: obžalovaný je nevinný. Hypotézu schválně nastavujeme takto, aby 
+chyba prvního druhu byla odsouzení nevinného (což je závažnější). Musíme mít
+opravdu dost důkazů (nastavíme pomocí $\alpha$) abychom někoho poslali do vězení.
+
+Statistika je libovolná funkce, která zobrazuje náhodný výběr do reálných čísel.
+V praxi volíme statistiku tak, aby byla v případě neplatnosti hypotézy hodně malá
+(tzn. ležela v tzv. kritickém oboru).
+
+Testy v počítačích vracejí $p$-hodnoty: pravděpodobnost, že bychom dostali
 výsledek, který stejně nebo víc svědčí \emph{proti} $H_0$, jestliže $H_0$ platí.
 Konvence: $p$-hodnota $\leq\alpha\longrightarrow$ zamítáme $H_0$ a prokazujeme
-$H_1$.
+$H_1$. Pokud není $\alpha$ nastavena předem (toto je velmi důležité), klesá
+síla testu na polovinu.
 
-TODO: T-test, $\chi^2$ test, linearni regrese.
+TODO: T-test, $\chi^2$ test
+
+Lineární model (regrese) je de facto proložení naměřených bodů nějakou reálnou funkcí.
+Uvažujeme pozorovaná data $Y_i$ (např. IQ) a chceme najít model (přímku), která je
+nejlépe vystihuje, v závislosti na vysvětlující proměnné $X_i$ (např. hladina cukru v
+krvi). Tedy hledáme funkci ve tvaru $\beta_0 + \beta_1X_i$. Dostáváme soustavu rovnic
+$Y_i = \beta_0 + \beta_1X_i + u_i$. Použitím např. metody nejmenších čtverů získáme 
+koeficienty $\beta_i$, tedy celý model. Vysvětlujícíh proměnných může být celá řada
+(např. pohlaví, výčka, etc.) a nemusí být lineární (např. závislost na výšce může
+být kvadratická) - i v takovém případě hovoříme o lineárním modelu (resp. regresi).
+Nelineární se regrese stává až když povolíme interakci mezi proměnnými (např součin).
 
 \end{document}
