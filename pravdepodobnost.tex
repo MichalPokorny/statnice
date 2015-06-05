@@ -234,9 +234,13 @@ Konzistentní bodové odhady: pro $N\rightarrow\infty$ a $\forall\varepsilon>0,
 $P(|T_n-\Theta|>\varepsilon)\rightarrow 0$.
 \end{define}
 
-Pozn.: průměr náh. výběru je dobrý odhad střední hodnoty
+\begin{remark}
+Průměr náh. výběru je dobrý odhad střední hodnoty.
+\end{remark}
 
-Pozn.: výběrový rozptyl je dobrý odhad rozptylu
+\begin{remark}
+Výběrový rozptyl je dobrý odhad rozptylu.
+\end{remark}
 
 Metoda maximální věrohodnosti: $\theta$ odhadneme tak, aby naše $X_i$ byla
 co nejvěrohodnější: $T_n=\arg\max_\theta \prod_{i} f(X_i,\theta)$.
@@ -275,12 +279,12 @@ když $H_0$ neplatí. Chyba 1. druhu je vážnější -- je horší si myslet,
 že $H_1$ platí, když neplatí, než si myslet, že $H_1$, když ve skutečnosti
 $H_0$.
 
-Hladina testu $\alpha$: pravděpodobnost chyby 1. druhu. Pzoro!!! hladinu
+Hladina testu $\alpha$: pravděpodobnost chyby 1. druhu. \emph{Pozor}: hladinu
 musíme nastavit ještě než začneme testovat! (to platí i pro p-value dále).
 Síla testu $\beta$: chyba 2. druhu.
 
 Příklad ze života (prof. Antoch) - Soudíme podezřelého. Platí presumpce neviny,
-tzn. $H_0$: obžalovaný je nevinný. Hypotézu schválně nastavujeme takto, aby 
+tzn. $H_0$: obžalovaný je nevinný. Hypotézu schválně nastavujeme takto, aby
 chyba prvního druhu byla odsouzení nevinného (což je závažnější). Musíme mít
 opravdu dost důkazů (nastavíme pomocí $\alpha$) abychom někoho poslali do vězení.
 
@@ -296,14 +300,17 @@ síla testu na polovinu.
 
 TODO: T-test, $\chi^2$ test
 
-Lineární model (regrese) je de facto proložení naměřených bodů nějakou reálnou funkcí.
-Uvažujeme pozorovaná data $Y_i$ (např. IQ) a chceme najít model (přímku), která je
-nejlépe vystihuje, v závislosti na vysvětlující proměnné $X_i$ (např. hladina cukru v
-krvi). Tedy hledáme funkci ve tvaru $\beta_0 + \beta_1X_i$. Dostáváme soustavu rovnic
-$Y_i = \beta_0 + \beta_1X_i + u_i$. Použitím např. metody nejmenších čtverů získáme 
-koeficienty $\beta_i$, tedy celý model. Vysvětlujícíh proměnných může být celá řada
-(např. pohlaví, výčka, etc.) a nemusí být lineární (např. závislost na výšce může
-být kvadratická) - i v takovém případě hovoříme o lineárním modelu (resp. regresi).
+Lineární model (regrese) je proložení naměřených bodů nějakou lineární funkcí
+$\hat{f}$.
+Uvažujeme pozorovaná data $Y_i$ a chceme najít model (přímku), která je
+nejlépe vystihuje v závislosti na vysvětlující proměnné $X_i$.
+Hledáme funkci ve tvaru $\hat{f}=\beta_0 + \beta_1X_i$. Dostáváme soustavu rovnic
+$Y_i = \beta_0 + \beta_1X_i + u_i$. Použitím např. metody nejmenších čtverů získáme
+koeficienty $\beta_i$, tedy celý model. Vysvětlujících proměnných může být celá řada
+(např. pohlaví, výška, etc.) a nemusí být lineární (např. závislost na výšce může
+být kvadratická) -- i v takovém případě hovoříme o lineárním modelu (resp. regresi).
 Nelineární se regrese stává až když povolíme interakci mezi proměnnými (např součin).
+
+TODO: Vzoreček na lineární regresi (je Hladíkově lingebře)
 
 \end{document}
