@@ -1,0 +1,191 @@
+\documentclass[a4paper,10pt,titlepage]{article} \usepackage[utf8]{inputenc}
+\usepackage{a4wide} \usepackage[czech]{babel}
+\usepackage[small,compact]{titlesec}
+
+\usepackage{graphicx}
+\usepackage{amsthm}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+
+\newtheorem{theorem}{Věta}
+\newtheorem{define}{Definice}
+\newtheorem*{notation}{Značení}
+\newtheorem*{example}{Příklad}
+\newtheorem*{remark}{Poznámka}
+
+\begin{document} \pagestyle{empty}
+
+LAN = local, WAN = wide area network. MAN = metropolitan area network.
+PAN = personal area network, napriklad Bluetooth
+
+LAN: sdili se prostredky - tiskarny, servery, ...
+Byvala vyssi rychlost.
+LAN jsou privatni.
+
+WAN: vzdaleny pristup, distribuovane.
+WAN jsou verejne.
+
+Sitove modely: ISO/OSI. Sitova architektura je konkretni implementace sitoveho
+modelu.
+
+OSI model (open systems interconnection): 7 vrstev:
+\begin{enumerate}
+\item physical: jak proudí bity po drátech
+\item link: prenos dat mezi sousedy na jedne siti
+\item network: dosazeni cile, i skrz hranice siti. Tady se treba routuje.
+\item transport: TCP/UDP. "end-to-end přenos datových celků"
+\item session
+\item presentation: RPC protokoly?
+\item application: komunikace mezi programy
+\end{enumerate}
+
+TCP/IP model odpovídá plus minus OSI:
+\begin{enumerate}
+\item síťové rozhraní = OSI 1+2. Ethernet, WiFi, PPP, ...
+\item síťová vrstva = OSI 3. IP/ARP
+\item transportní = OSI 4. TCP/UDP/ICMP/...
+\item aplikační = OSI 5+. FTP/HTTP, DNS, NFS/XDR/RPC, ...
+\end{enumerate}
+
+Služby se adresují URI (Uniform Resource Identifier):
+schéma://jméno:heslo@adresa:port[cesta]
+
+Adresy: MAC na linkové vrstvě, IP na link vrstvě, doména na aplikační vrstvě
+
+ICANN: spravuje domény nejvyšší úrovně.
+CZ.NIC spravuje doménu .cz.
+
+OS se podívá na PDU na link vrstvě, zjistí protokol network vrstvy a pošle
+příslušnému stacku (IP stack, IPX, ARP, ...).
+IP stack se podívá na typ transportního protokolu (TCP/UDP) a pošle dál,
+TCP/UDP se podívají na port a pošlou to aplikaci.
+
+Porty jsou 16bitové. Porty < 1024 jsou rezervované. Např. 80 = HTTP.
+Když se baví klient a server, server má většinou nějaký známý port.
+Klient pošle serveru packet s např. destination portem 80 jako HTTP,
+a vymyslí si nějaký source port, na kterém bude čekat na odpověď od serveru.
+
+Porty:
+\begin{itemize}
+\item 21: FTP (TODO: plus nějaký další port... FTP používá dva)
+\item 22: SSH
+\item (23: Telnet)
+\item 80: HTTP, 443: HTTPS
+\item (53 UDP/TCP: DNS), (67,68/UDP: DHCP)
+\end{itemize}
+
+Socket je jeden konec komunikačního kanálu: IP + port.
+
+DNS: má primární, sekundární a caching servery. Primární je autorita,
+sekundární má kopie dat, caching-only jenom cachuje.
+Záznamy: NS/SOA: nameservery a info o doméně, A/AAAA: normální záznam IP4/IP6.
+PTR: reverzní záznamy (1.1.168.192.in-addr.arpa ==> www.seznam.cz). CNAME.
+MX: záznamy pro mailservery.
+
+DNS záznamy mají TTL, po jaký se můžou udržovat v cachích.
+
+Rekurzivni, nerekurzivni odpovedi: nerekurzivni se jenom podiva do svych
+zaznamu, rekurzivni se muze zeptat jinde.
+DNS diagnostika přes nslookup, dig.
+
+FTP protokol: velmi starý. anonymous:(mail).
+Kódy odpovědí: 1xx = předběžně kladná odpověď, 2xx = definitivní kladná,
+3xx = prozatímní (potřebuju další příkazy), 4xx = dočasná záporná, 5xx = trvalá
+záporná. Podobné schema mají další protokoly.
+
+TODO: aktivní a pasivní mód, nechápeme. DOPLNIT.
+
+\section{Elektronická pošta}
+Mail user agent, mail transfer agent.
+MUA: běží u uživatele. MTA: SMTP se používá na posílání, POP/IMAP na přijímání.
+
+SMTP protokol: příkazy: "HELO (kdo jsem ja)", "MAIL FROM: <...>", "RCPT TO:
+<...>", "DATA", dopis, konci se teckou na samostatnem radku.
+Hlavicky uvnitr dopisu jsou nezavisle.
+
+Multipart encoding (multipart/mixed): balení víc souborů v mailu, s oddělovači.
+MIME typy: text/plain, text/html, ...
+
+Hlavičky: Date, From = autor, Sender = kdo to poslal, Reply-To, To = adresáti,
+Cc = carbon copy, Bcc = blind carbon copy, Message-ID, Subject, Received =
+záznam o průběhu doručení
+
+Base64: překódování, Quoted-Printable: non-ASCII jako "=HexHex"
+
+POP, IMAP na vyzvedávání pošty. IMAP je novější a lepší, má zabudované
+šifrování.
+
+\section{HTTP}
+HTTP: WWW stránky v HTML.
+
+GET (cesta) HTTP/1.1
+Host: www.cuni.cz
+
+==>
+
+HTTP/1.1 200 OK
+Content-Type: ...
+(... ...)
+
+Chybové kódy:
+1xx: informativní (odpověď přijata, zpracovává se)
+	TODO: jak se to v praxi použije?
+2xx: kladná definitivní
+3xx: prozatímní kladná, nutné poslat další požadavky. Například redirecty.
+4xx: chyba na straně klienta
+5xx: chyba na straně serveru
+
+GET (jde cachovat), HEAD (jen hlavičky), POST, PUT (mají nějaké tělo požadavku),
+CONNECT (na tunelování)
+
+\section{Routing}
+TCP otevreni: SYN - SYN+ACK - ACK, uzavreni: FIN+ACK - ACK
+
+TCP paket: source, dest. port, sequence number, ACK number, data offset, flagy,
+velikost okna, checksum, ...
+
+UDP paket: source+dest. port, velikost, checksum -- protoze to je proudovy
+protokol.
+
+Třídy IP adres jsou A, B, C, D, E. Třída IP se určí podle prvních bitů prvního
+oktetu.
+\begin{itemize}
+\item 0 => Ačková adresa, za ní 7 bitů co dávají síť.
+\item 10 => B, za ní 14 bitů na síť.
+\item 110 => C, za ní 21 bitů na síť.
+\item 1110 => D: multicast.
+\item 1111 => E: experimental.
+\end{itemize}
+
+Speciální adresy:
+\begin{itemize}
+\item 127.* = loopbacky
+\item 10.*/8, 172.16-31/16, 192.168.*.0/24 = privátní sítě
+\item network broadcast: (síť) (jedničky)
+\item broadcast všem v síti: 255.255.255.255
+\end{itemize}
+
+Subnetting: dneska se vpodstatě třídy adres ignorují, používají se subnety,
+adresa sítě je nějaký prefix IP. V jedné síti různé masky => VLSM.
+
+IP datagram: protokol, TTL, source/destination IP.
+TODO: fragmentace...?
+
+IPv6: 128 bitu na adresu.
+
+Směrovací tabulky: od specifických po obecné záznamy: cíl, maska, gateway.
+Pakety se posílají s nezměněnými IP adresami.
+Záznamy: staticky ručně vyrobené, nebo dynamicky vytvořené.
+Dynamické: např. ICMP Redirect, RIP, OSPF, BGP, atd.
+
+Distance vector algoritmy: záznamy si pamatují i "vzdálenost".
+Například RIP: metrika = počet hopů. Bellman-Fordův algoritmus.
+
+Existuje filtrování: na IP, na HTTP, atd (zakážu komunikovat po nějakém portu).
+
+Překlad adres (slide 135).
+
+ARP: konverze MAC a IP. Každý stroj má ARP cache.
+
+\end{document}
