@@ -1,0 +1,135 @@
+Instruction Register: nactena instrukce, Program Counter: adresa soucasne
+instrukce. Existuje registr na adresu do pameti (Memory Access Register),
+buffer pro pamet (Memory Buffer Register).
+
+Von Neumann: ALU, pamet, input, output, controller.
+
+Control-flow: standardni von Neumannova architektura, sekvencni presne podle
+programu. Data-flow: instrukce se provadi jakmile jsou k nim pripravena data.
+
+Harvardska architektura: oddelena pamet na program, klidne s jinymi parametry.
+
+Preruseni: vnejsi, vnitrni.
+
+Faze zpracovani instrukce: read (precteni instrukce), dekodovani, load
+(operandu), execute, store (ulozeni vysledku). Posun PC.
+
+Load-store architektura: vsechno se musi nejdriv nahrat do registru, nemaji
+instrukce pro pristup rovnou do pameti.
+
+Zapnuti PC: 1) CPU zacne vykonavat kod BIOSu (ktery posloucha na dane adrese),
+2) BIOS inicializuje HW, nacte boot sektor, 3) boot sektor pomoci BIOSu nacte
+a spusti zavadec OS, 4) zavadec OS pusti OS, 5) OS.
+
+MBR = 512 bytu.
+
+CISC a RISC. CPUcka maji FPU*, ALU*, registry.
+
+Instrukce HLT na spani, kdyz neni potreba delat nic jineho.
+
+Ortogonalni instrukcni sada: nepredpoklada implicitne zadne registry.
+
+Deleni CPU: dle delky operandu (4,16,32,64,...).
+Mensi sirky: embedded zarizeni.
+MIPS: million instructions per second.
+
+Pipeliny: paralelizace nezavislych kusu zpracovani instrukce.
+Superskalarita: pridame nezavisle exekucni jednotky (treba vic FPU, ALU, ...).
+Out of order: rozdrobeni na mikrooperace, vlozeni do vyckavaciho bufferu,
+tam ceka nez dostane operandy, pak se vykona, pak se vysledky uchovaji v reorder
+bufferu.
+
+Symetrie: asymetricka je treba CPU+GPU.
+SIMD: napriklad na GPUckach.
+
+tightly-coupled, loosely-coupled
+
+I/O zarizeni: blokove/znakove. sekvencni pristup/nahodny. komunikace:
+synchronni/asynchronni. Existuji sdilena zarizeni (tiskarny se spooingem, ...).
+Propojovani: dvoubodove/vicebodove (sbernice).
+
+Port-mapped I/O: sprcialni port a instrukce na CPU.
+Memory-mapped I/O: vlozeni v adresnim prostoru.
+
+Sbernice: synchronni/asynchronni. Slave/target.
+
+Polling, interrupt-driven I/O; programmed I/O vs. DMA
+
+DMA: CPU dostane interrupt az skoncime, u multiprocesoru i prenos mezi jadry.
+DMA radic obsahuje registry, ktere nastavi CPU.
+DMA radic se sam chova jako periferie pripojena na sbernici: komunikuje s
+pameti, zajistuje aby procesor zrovna sbernici nepotreboval.
+Muze dojit k pametove inkoherenci, pak se to musi resit (MOESI?).
+
+Architektury OS: monoliticka (Unix, Windows); mikrojadra.
+Virtualni stroje, dnes se pouziva napriklad pro managed jazyky (.NET, Java).
+OS se vola z aplikace pres preruseni.
+
+TODO: Vztah OS a HW, obsluha preruseni.
+
+Systemove volani: API mezi OS a userspacem.
+Thready: user-level, kernel threads.
+
+Planovani: chceme spravedlive, efektnivni, rychle.
+Kriteria procesu: vazanost na CPU nebo I/O. Davkovy/interaktivni? Priorita?
+
+Algoritmy: first come first served; round robin; vice front (z i-te fronty
+kdyz jsou prvni i fronty prazdne). I/O => posun do i-1, preempce => i+1.
+
+Busy waiting.
+
+TODO: dusledne stridani (promenna 'turn')
+
+TODO: podivat se na Petersonovo reseni?
+
+Semafor: zámek s větším N, hodi se na producent/konzument. Pamatuje si
+pocet slotu; zabrani/uvolneni.
+Mutex: semafor pro 0/1.
+Monitor: mutex + condition variable.
+
+Coffmanovy podminky pro deadlock: vylucny pristup, drz a cekej (procesy
+muzou zadat o dalsi prostredky), neodnimatelnost, cekani do kruhu.
+
+Deadlocky: detekce a zotaveni: waits-for graf; priority vlaken (jedno vyhraje);
+zabijeni cyklu. Predchazeni: spooling (sprava prostredku); zadej o vsechno hned;
+odnimani prostredku; cekani do kruhu: zadej jenom ve vzestupnem poradi (dle
+indexu prostredku).
+
+Pres prioritu: wound-wait (zabij min dulezite vlakno kdyz ma muj zamek);
+wait-die (umri kdyz bych si chtel vzit zamek od dulezitejsiho vlakna).
+
+Dvoufazove zamykani: nejdriv zamykej, pak jenom odmykej.
+
+Pametova hierarchie, cache.
+
+Preklad adresy, virtualni pamet.
+
+Fungovani mallocu: bloky nejakych velikosti.
+First-fit: prvni volny dostatecne velikosti; obcas rozdeli diru.
+Next-fit: dalsi volny dostatecne velikost, zacni od posledni prohledane pozice.
+Best-fit: nejmensi volny dostatecne velikosti; pomaly (cely seznam), nechava
+velke diry.
+Buddy system: bloky velikosti $2^n$, slucuj volne vedle sebe.
+
+Fragmentace: externi (nepouzite bloky); interni (nevyuzije cely prideleny
+prostor vevnitr bloku); sesypani nejde.
+
+MMU: prevod mezi virtualni a fyzickou pameti.
+Po strankach. Page Table Base Register.
+Translation Lookaside Buffer.
+
+Page Table Base Register: ukazatel na tabulku prekladu stranek.
+Algoritmy na vyhazovani: OPT, FIFO, LRU napriklad.
+
+Soubory: alokace: souvisla, spojovy seznam, indexova (UNIX inode s direct,
+indirect, double indirect, triple indirect).
+Symbolic/hard linky.
+Hierarchie adresaru (strom/DAG).
+Implementace adresaru: pevne velke zaznamy, spojak, B-stromy.
+
+Velikost MBR = 512 B.
+
+RAID: JBOS (just bunch of disks).
+0 = striping bez redundance. 1 = mirroring, 2 = 7-bitovy Hamming kod,
+3 = 1 paritni disk, po bitech na disky, 4 = 1 paritni disk a striping,
+5 = distribuovana parita a striping, 6 = ???
