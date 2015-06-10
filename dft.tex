@@ -1,0 +1,31 @@
+\documentclass[a4paper,10pt,titlepage]{article} \usepackage[utf8]{inputenc}
+\usepackage{a4wide} \usepackage[czech]{babel}
+\usepackage[small,compact]{titlesec}
+
+\usepackage{graphicx}
+\usepackage{amsthm}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+
+\newtheorem{theorem}{Věta}
+\newtheorem{define}{Definice}
+\newtheorem*{notation}{Značení}
+\newtheorem*{example}{Příklad}
+\newtheorem*{remark}{Poznámka}
+
+\begin{document} \pagestyle{empty}
+Disketni Fourierova transformace prevadi polynom reprezentovany jako koeficienty
+$p_i$: $P(x)=\sum p_i x^i$ na jeho hodnoty v $\omega^i$, kde $i\in\{0,\ldots
+n-1\}$ a $\omega$ je $n$-ta komplexni odmocnina s 1.
+Polynom rozdelime na sude a liche mocniny: $P(x)=S(x^2)+xL(x^2)$. Diky tomu
+umime rychle vyhodnotit $P(-x)$ jako $S(x^2)-xL(x^2)$.
+Vyjde nam to v $\O(N\log N)$.
+
+Reprezentace pres vysledky v bodech je totiz uzitecna na nasobeni polynomu.
+
+Inverzni DFT dostaneme tim, ze na DFT se podivame jako linearni zobrazeni
+$f(x)_j=\Omega x=\sum_{k=0}^{n-1} x_k \omega^{kj}$, a $\Omega$ je invertibilni
+a $\Omega^{-1}=\frac{1}{n} \bar{\Omega}$, takze staci podelit $n$-kem a konvexne
+sdruzit.
+\end{document}
