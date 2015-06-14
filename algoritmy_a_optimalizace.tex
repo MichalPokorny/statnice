@@ -8,6 +8,8 @@
 \usepackage{amsfonts}
 \usepackage{amssymb}
 
+\def\R{\mathbb{R}}
+
 \begin{document} \pagestyle{empty}
 \chapter{Algoritmy a optimalizace}
 
@@ -92,7 +94,47 @@ Max-2-SAT je NP-těžký.
 \end{itemize}
 
 \subsection{Nezávislé množiny}
-TODO: pro nezavisle mnoziny
+Pro $\varepsilon>0$ nejdou maximální nezávislá množina/maximální klika
+aproximovat s poměrem $\O(n^{\varepsilon-1})$ pokud $P\neq NP$.
+
+%%%%Hledáme největší nezávislou množinu v grafu.
+%%%%Aproximace s konstantním poměrem se nedá v polynomiálním čase, pokud $P\neq NP$.
+%%%%
+%%%%Algoritmus: $I\gets\emptyset$, $d_v$ buď stupeň $v$. Dokud $V\neq\emptyset$:
+%%%%\begin{enumerate}
+%%%%\item Paralelně pro každý vrchol: když $d_v=0$, tak $I+=\{v\}$, $V-=\{v\}$.
+%%%%\item Paralelně pro každý vrchol: označ jej s pravděpodobností $\frac{1}{2d_v}$.
+%%%%\item Paralelně pro každou hranu $\{u,v\}$: když jsou $\{u,v\}$ oba označené,
+%%%%	odeber značku z toho z nich, co má menší stupeň.
+%%%%\item Ať $S$ jsou označené vrcholy a $N(S)$ jejich sousedé. $I+=S$ a $V-=(S\cup
+%%%%	N(S))$ a odeber hrany incidentní k $S\cup N(S)$.
+%%%%\end{enumerate}
+%%%%
+%%%%Vrchol je \emph{dobrý}, pokud má aspoň $d_v/3$ sousedů stupně nejvýše $d_v$,
+%%%%ostatní jsou \emph{špatné}. Hrana je dobrá, obsahuje-li dobrý vrchol, jinak je
+%%%%špatná.
+%%%%
+%%%%Lemma 1: je-li vrchol $v$ dobrý, tak nějakého jeho souseda označím s
+%%%%pravděpodobností $\geq 0.15$.
+%%%%Důkaz: $P[\text{neoznačím žádného souseda }v]\leq (1-\frac{1}{2d_v})^{d_v/3}\leq
+%%%%	e^{-1/6}<0.85$
+%%%%
+%%%%Lemma 2: Je-li vrchol $v$ označený, pak se dostane do $S$ s pravděpodobností
+%%%%	$\geq 1/2$.
+%%%%Důkaz: $P[\text{odeberu mu značku}]\leq d(v)\cdot\frac{1}{2d(v)}=1/2$
+%%%%
+%%%%Lemma 3: Dobrých hran je aspoň půlka.
+%%%%Důkaz: Zorientuj $G$: hrany z malých stupňů do velkých, vždy jenom jedna.
+%%%%	Je-li $v$ špatný, tak do něj vede nejvýš $d_v/3$ hran.
+%%%%	$E(V\imp v)\leq\frac{1}{2}E(v\imp V)$,
+%%%%	takže $2E(B\imp v)\leq E(v\imp V)=E(v\imp B)+E(v\imp G)$.
+%%%%	Posčítám to pro všechny špatné vrcholy, dostanu:
+%%%%	$2E(B\imp B)\leq E(B\imp B)+E(B\imp G)$.
+%%%%
+%%%%Po $\O(\log N)$ krocích nám zmizí všechny vrcholy.
+
+TODO: A jaky to ma aproximacni pomer? A proc?
+TODO: analyza
 
 \subsection{Množinové pokrytí}
 TODO: pro mnozinove pokryti
@@ -132,13 +174,40 @@ Je to NP-kompletní (například přes subset-sum).
 \end{itemize}
 
 \section{Použití lineárního programování pro aproximační algoritmy}
-TODO
+Viz LP-SAT.
 
 \section{Využití pravděpodobnosti při návrhu algoritmů}
 TODO
 
+Viz QuickSort, Best-SAT, atd.
+
 \section{Voroného diagramy}
-TODO
+Voroného diagram pro body $B$ je rozdělení na buňky podle nejbližšího
+bodu. Uvažujeme $\R^2$ s Euklidovskou metrikou, i když to jde zadefinovat
+i v jiných MP.
+Voroného diagram je duální k Delaunayově triangulaci.
+Buňky jsou konvexní mnohostěny, protože vzniknou průnikem poloprostorů.
+Dva body sousedí na konvexním obalu právě když jejich buňky sdílejí nekonečnou
+hranu.
+
+Voroného diagramy jdou vygenerovat Fortunovým algoritmem, který potřebuje
+prostor $\O(N)$ a čas $\O(N\log N)$. Zametáme zleva
+doprava, máme dvě zametací čáry: "beach line" a "sweep line".
+Sweep line je rovná čára, beach line se skládá z kousků parabol.
+Beach line dělí rovinu na část, kde triangulaci známe, a část, kde ji neznáme.
+
+Každý bod nalevo od sweep line společně se sweep line indikuje parabolu,
+která ho odděluje od bodů bližších ke sweep line.
+Držím si \emph{binární strom} popisující beach line a \emph{prioritní frontu}
+událostí, které můžou změnit strukturu beach line.
+Eventy jsou:
+\begin{itemize}
+\item Přidání paraboly, když sweep line projde novým bodem.
+\item Odebrání paraboly. Ať jsou za sebou paraboly dané vrcholy $a,b,c$.
+Nastane, jakmile se paraboly $a,c$ protnou v jednom bodě s parabolu $b$.
+\end{itemize}
+
+TODO: Víc detailů?
 
 \section{Aranžmá nadrovin}
 TODO
@@ -149,10 +218,61 @@ TODO
 \section{Základní algoritmy výpočetní geometrie}
 TODO
 
+\def\vykradeno{Nestydatě vykradeno od Verči/PJK z
+github.com/PJK/mff-diskretni-struktury v commitu b74b55ae4.}
+
 \section{Samoopravné kódy}
-TODO
+\vykradeno
+
+Kód na $\Z_2$, přenos nad šumivým kanélem. Navrhujeme kódování.
+
+Trojitý opakovací kód: umíme opravit 1 chybu (narozdíl od zdvojení).
+
+Hammingova váha, Hammingova vzdálenost, nejbližší slovo. Spolehlivost kanálu:
+pravděpodobnost korektního přenosu, výskyt nezávislonáhodný.
+
+Umět opravit $t$ chyb na slovo $\leftrightarrow$ v žádné kouli v daném slově o
+poloměru $2t$ nesmí ležet jiné slovo.
+
+Hammingův/(7,4,3) kód: 4 bity informace, 3 kontrolní bity $a_0, a_1, a_2$:
+$a_0=a_3+a_4+a_6$, $a_1=a_3+a_5+a_6$, $a_2=a_4+a_5+a_6$. Z toho vyjde jeho
+kontrolní matice.
+
+Kód nad $\Z_2^n$ je $C\subseteq\Z_2^n$. Vzdálenost kódu $\Delta C:=\min_{x\neq
+y\in C} d(x,y)$.
+
+$(n,k,d)$ kód je nad $\Z_2^n$, má $|C|=2^k$ a $d=\Delta C$.
+Kódování je bijekce. Dekódování přiřadí slovům kódu nejbližší kódované slovo.
+
+Kód $C$ opravuje $t$ chyb $\leftrightarrow$ pro kazde zakodovane slovo
+existuje nejvys jeden kod co je nejvys $t$ od nej.
+
+Pozorovani: $(n,k,d)$-kod opravuje $t$-nasobne chyby prave kdyz $d\geq 2t+1$.
+
+Generující matice lineárního $(n,k,d)$-kódu: matice $G$ tvaru $k\times n$,
+radky jsou baze $C$. Zobrazeni $f(x):=x\cdot G$ je kodovani.
+Pro lineární kód: $\Delta C=\min_{x\in C\smallsetminus\{0\}}\|x\|$.
+
+Kontrolní matice lineárního $(n,k,d)$-kódu: $K\in C^{(n-k)\times k}$, řádky
+jsou báze $C^\perp$. $x\in C\leftrightarrow K\cdot x^T=0$. Kód obsahuje slovo
+váhy $t$ právě když $K$ obsahuje $t$ sloupců, co se sečtou na 0.
+Speciálně když má různé nenulové sloupce, tak $\Delta\geq 3$.
+
+Hammingův kód $\mathbb{H}_m$: $K$ má $m$ řádků a $2^{m-1}$ sloupců,
+sloupce jsou všechny různé vektory $\Z_2^m\smallsetminus\{0\}$.
+
+Hammingův kód je $(n,k,d)$-kód, kde $n=2^m-1$, $k=2^m-1-m$, $d=3$.
 
 \section{Pravděpodobnostní metoda - příklady použití}
-TODO
+\vykradeno
+
+Příklad použití pravděpodobnostní metody:
+
+Množiny $S_1\ldots S_m$, kde $|S_i|=\ell$. Když $m<2^{l-1}$, tak jde sjednocení
+obarvit tak, že žádná není monochromatická.
+Dk: Pravděpodobnost monochromatičnosti: $1/2^l + 1/2^l = 1/(2^{l-1})$,
+takže pravděpodobnost libovolné monochromatičnosti je nejvýš 1.
+
+TODO: Víc.
 
 \end{document}
