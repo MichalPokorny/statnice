@@ -138,7 +138,27 @@ TODO: A jaky to ma aproximacni pomer? A proc?
 TODO: analyza
 
 \subsection{Množinové pokrytí}
-TODO: pro mnozinove pokryti
+Máme systém všech prvků $\{1, \ldots, n\}$ a systém jeho podmnožin $S_1, \ldots,
+S_m$. Každá podmnožina stojí $c_i$. Pro pozdější analýzu zavádíme $g=max|S_i|=$
+``největší množina''; $f=$``v kolika množinách je nejčastější prvek''. Cílem je
+nakoupit takové množiny, že budeme mít všechny prvky systému a celkem zaplatíme
+minimum.
+
+\begin{itemize}
+\item	Hladový algoritmus v každém kroku uvažuje pouze $S_j$ takové, že je má smysl koupit.
+	Koupí vždy tu, který má nejlepší poměr ``cena/výkon'', tedy v každém kroku kupuji
+	množinu minimalizující $\frac{c_j}{S_j \setminus E}$, kde $E$ je množina již koupených
+	prvků. Algoritmus dává ne moc dobrý $H_g$-apx poměr (harmonické číslo $g$).
+	Analýza je jednoduchá přes zjevný LP program a jeho duál (+komplementarita).
+
+\item	Primárně-duální algoritmus řeší duální problém. V každém kroku kupuju množiny takové,
+	že splňují duální LP s rovností (tedy pro nepokrytý prvek jsou duální podmínky
+	ostré). Algoritmus je $f$-apx; snadnou analýzou LP a duálu.
+
+	$$
+	ALG = \sum\limits_{koupene} c_j = \sum\limits_{koupene}\sum\limits_{element} y_e \leq f \sum\limits_{1}^{n} y_e \leq f.OPT
+	$$
+\end{itemize}
 
 \subsection{Rozvrhování}
 Máme $p_j$ úloh, které rozvrhujeme na jeden z $m$ identických strojů.
