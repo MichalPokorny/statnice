@@ -5,3 +5,6 @@ pravdepodobnost.pdf: pravdepodobnost.tex
 
 site.pdf: site.tex
 	pdflatex site
+
+algoritmy_a_optimalizace.pdf: algoritmy_a_optimalizace.tex
+	pdflatex algoritmy_a_optimalizace

@@ -1,0 +1,158 @@
+\documentclass[a4paper,10pt,titlepage]{article} \usepackage[utf8]{inputenc}
+\usepackage{a4wide} \usepackage[czech]{babel}
+\usepackage[small,compact]{titlesec}
+
+\usepackage{graphicx}
+\usepackage{amsthm}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+
+\begin{document} \pagestyle{empty}
+\chapter{Algoritmy a optimalizace}
+
+\begin{itemize}
+\item Aproximační algoritmy pro SAT, nezávislé množiny, množinové pokrytí,
+	rozvrhování.
+\item Použití lineárního programování pro aproximační algoritmy.
+\item Využití pravděpodobnosti při návrhu algoritmů.
+\item Voroného diagramy.
+\item Aranžmá nadrovin.
+\item Incidence bodů a přímek.
+\item Základní algoritmy výpočetní geometrie.
+\item Samoopravné kódy.
+\item Pravděpodobnostní metoda - příklady použití.
+\end{itemize}
+
+Vycházím ze svých zápisků z Aproximačních a pravděpodobnostních algoritmů.
+Asi bude potřeba, abych se taky podíval do Kombinatorické a výpočetní geometrie.
+Počítám, že samoopravné kódy a pravděpodobnostní metodu ukradnu od Verči.
+
+\section{Aproximační algoritmy pro SAT, nezávislé množiny, množinové pokrytí,
+	rozvrhování}
+
+\subsection{SAT}
+Aproximační verze SATu je Max-SAT: snažíme se splnit co nejvíce klauzulí umíme.
+Pro pořádek předpokládáme, že klauzule jsou neprázdné a nejsou tautologie
+(tj. neobsahují $x\vee\neg x$).
+Max-$k$-SAT: délka klauzule nejvíc $k$, E$k$-SAT: přesně $k$.
+
+Max-2-SAT je NP-těžký.
+
+\begin{itemize}
+\item Rand-SAT: Náhodně nezávislý výběr hodnoty každé proměnné: každá klauzule
+	platí s pravděpodobností $1-2^{-k}$, pro Max-E3-SAT dostaneme
+	7/8-aproximační algoritmus. Pro Max-E3-SAT nic lepšího nejde.
+
+\item Biased-SAT: podíváme se pro každou proměnnou, jestli se vícekrát vyskytne
+	jako jednotková klauzule $x$, nebo $\neg x$. Když se $x$ vyskytuje
+	víckrát než $\neg x$, zvol $x=1$ s pravděpodobností
+	$\phi-1=(\sqrt{5}-1)/2\approx 0.618$, jinak obráceně ($2-\phi$).
+
+	Biased-SAT je $\phi-1$-aproximační.
+	Bez újmy na obecnosti vyruš po dvojicích jednotkové klauzule $(x_i)$
+	a $(\neg x_i)$ -- platí jenom jedna polovina z nich, tohle vyrušení
+	nezhorší aproximační poměr.
+	TODO: Tohle Prvák nechápe.
+
+	Klauzule délky 1 je splněna s pravděpodobností $\phi-1$,
+	ostatní splněny s pravděpodobností aspoň $1-(\phi-1)^k\geq
+	1-(\phi-1)^2=\phi-1$.
+
+\item LP-SAT: Použijeme lineární program:
+	definuj pro klauzuli $C_t$ funkci:
+	$f(C_t)=\sum_{(x_i)\in C_t} y_i + \sum_{(\neg x_i)\in C_t} (1-y_i)$.
+	Maximalizuj $\sum z_j$ pro $y_i\in [0;1], z_i\in [0;1],
+	(\forall t) z_t\leq f(C_t)$.
+	Proměnné jsou tedy vlastně "relaxovaná pravdivost proměnných" a
+	"pravdivost klauzulí".
+
+	Vyřeš lineární program a pak vyber pravdivosti nezávisle náhodně
+	podle $y_i^*$.
+	LP-SAT je $(1-\frac{1}{e})$-aproximační. ($\approx 0.632$)
+
+	Lemma: $P[C_j(\overrightarrow{a})=1]\geq (1-(1-\frac{1}{k})^k)z_j^*$.
+
+	Důkaz: Bez újmy na obecnosti nechť je klauzule $C_j$ složena
+	z $k$ pozitivních literálů. $P[C_j(\overrightarrow{a})=0]=
+	\prod(1-y_i)^*\leq
+	(\sum{\frac{1-y_i^*}{k}})^k=(1-\frac{f(C_j)}{k})^k\leq
+	(1-\frac{z_j^*}{k})^k$.
+
+	Odhadneme tedy $P[C_j(\overrightarrow{a})=1]\geq
+	1-(1-\frac{z_j^*}{k})^k$. $g(i)=1-(1-\frac{i}{k})^k$ je konvexní,
+	tak vemu $g(z_j^*)\geq (g(1)-g(0))\cdot z_j^*$, dostanu
+	$P[C_j(\overrightarrow{a}=1)]\geq (1-(1-\frac{1}{k})^k)z_j^*$.
+
+	Z toho vyjde, že to je $1-\frac{1}{e}$-aproximační.
+
+\item Best-SAT: s pravděpodobností $\frac{1}{2}$ vezmu Rand-SAT, jinak LP-SAT.
+	Rozeberu si případy délek klauzulí 1, 2, 3+.
+	Dostanu aproximační poměr $3/4$.
+\end{itemize}
+
+\subsection{Nezávislé množiny}
+TODO: pro nezavisle mnoziny
+
+\subsection{Množinové pokrytí}
+TODO: pro mnozinove pokryti
+
+\subsection{Rozvrhování}
+Máme $p_j$ úloh, které rozvrhujeme na jeden z $m$ identických strojů.
+Úloha běží v čase $[S_j, C_j=S_j+p_j)$. Minimalizujeme délku rozvrhu.
+Je to NP-kompletní (například přes subset-sum).
+
+\begin{itemize}
+\item Hladový algoritmus: úlohu polož na nejméně zatížený stroj.
+	Říká se mu taky "list scheduling".
+	Věta: hladový algoritmus je $(2-1/m)$-aproximační.
+
+	Důkaz:
+	Bez újmy na obecnosti: poslední dokončená úloha je poslední rozvržená (rozvrh
+	by se nezkrátil, kdybych zapomněl na všechny za ní v seznamu úloh).
+	$C_n-S_n=p_n\leq OPT$, protože optimální rozvrh rozvrhne mimo jiné $p_n$.
+	Do času $S_n$ všechny stroje běží naplno, takže $S_n\leq OPT$.
+
+	$$S_n\leq \sum_{j=1}^n \frac{p_j}{m} - \frac{p_n}{m}\leq OPT-\frac{p_n}{m}$$
+	Z tohohle vytáhnu $C_n\leq OPT+(1-\frac{1}{m})p_n\leq (2-\frac{1}{m})OPT$.
+\item LPT algoritmus: $(4/3-1/3m)$-aproximační.
+	Nejdřív setříď joby sestupně podle délky, pak hladově pokládej na
+	nejméně zatížený stroj.
+
+	Když $p_n\leq OPT/3$, tak $S_n\leq (\sum p_j/m)-p_n/m\leq OPT-p_n/m$,
+	tak $C_n\leq OPT+(1-\frac{1}{m})p_n\leq (4/3-1/3m)OPT$.
+	Když naopak $p_n>OPT/3$, tak $OPT$ má na každém stroji nejvýš
+	2 úlohy.
+
+	Když $n\geq m+1$, tak $p_m+p_{m+1}\leq OPT$ (tyhle dvě jsou nejmenší).
+	Když $n\geq m+2$, tak z prvních $m+2$ úloh jsou dvě dvojice na jednom
+	stroji, aspoň jedna úloha aspoň velká $p_{m-1}$ je ve dvojici,
+	tak to bude dvojice $p_{m-1}+p_{m+2}$. Tohle přesně algoritmus
+	vyrábí, tak dává optimální rozvrh.
+\end{itemize}
+
+\section{Použití lineárního programování pro aproximační algoritmy}
+TODO
+
+\section{Využití pravděpodobnosti při návrhu algoritmů}
+TODO
+
+\section{Voroného diagramy}
+TODO
+
+\section{Aranžmá nadrovin}
+TODO
+
+\section{Incidence bodů a přímek}
+TODO
+
+\section{Základní algoritmy výpočetní geometrie}
+TODO
+
+\section{Samoopravné kódy}
+TODO
+
+\section{Pravděpodobnostní metoda - příklady použití}
+TODO
+
+\end{document}
