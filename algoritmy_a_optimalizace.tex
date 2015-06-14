@@ -98,44 +98,42 @@ Max-2-SAT je NP-těžký.
 Pro $\varepsilon>0$ nejdou maximální nezávislá množina/maximální klika
 aproximovat s poměrem $\O(n^{\varepsilon-1})$ pokud $P\neq NP$.
 
-%%%%Hledáme největší nezávislou množinu v grafu.
-%%%%Aproximace s konstantním poměrem se nedá v polynomiálním čase, pokud $P\neq NP$.
-%%%%
-%%%%Algoritmus: $I\gets\emptyset$, $d_v$ buď stupeň $v$. Dokud $V\neq\emptyset$:
-%%%%\begin{enumerate}
-%%%%\item Paralelně pro každý vrchol: když $d_v=0$, tak $I+=\{v\}$, $V-=\{v\}$.
-%%%%\item Paralelně pro každý vrchol: označ jej s pravděpodobností $\frac{1}{2d_v}$.
-%%%%\item Paralelně pro každou hranu $\{u,v\}$: když jsou $\{u,v\}$ oba označené,
-%%%%	odeber značku z toho z nich, co má menší stupeň.
-%%%%\item Ať $S$ jsou označené vrcholy a $N(S)$ jejich sousedé. $I+=S$ a $V-=(S\cup
-%%%%	N(S))$ a odeber hrany incidentní k $S\cup N(S)$.
-%%%%\end{enumerate}
-%%%%
-%%%%Vrchol je \emph{dobrý}, pokud má aspoň $d_v/3$ sousedů stupně nejvýše $d_v$,
-%%%%ostatní jsou \emph{špatné}. Hrana je dobrá, obsahuje-li dobrý vrchol, jinak je
-%%%%špatná.
-%%%%
-%%%%Lemma 1: je-li vrchol $v$ dobrý, tak nějakého jeho souseda označím s
-%%%%pravděpodobností $\geq 0.15$.
-%%%%Důkaz: $P[\text{neoznačím žádného souseda }v]\leq (1-\frac{1}{2d_v})^{d_v/3}\leq
-%%%%	e^{-1/6}<0.85$
-%%%%
-%%%%Lemma 2: Je-li vrchol $v$ označený, pak se dostane do $S$ s pravděpodobností
-%%%%	$\geq 1/2$.
-%%%%Důkaz: $P[\text{odeberu mu značku}]\leq d(v)\cdot\frac{1}{2d(v)}=1/2$
-%%%%
-%%%%Lemma 3: Dobrých hran je aspoň půlka.
-%%%%Důkaz: Zorientuj $G$: hrany z malých stupňů do velkých, vždy jenom jedna.
-%%%%	Je-li $v$ špatný, tak do něj vede nejvýš $d_v/3$ hran.
-%%%%	$E(V\imp v)\leq\frac{1}{2}E(v\imp V)$,
-%%%%	takže $2E(B\imp v)\leq E(v\imp V)=E(v\imp B)+E(v\imp G)$.
-%%%%	Posčítám to pro všechny špatné vrcholy, dostanu:
-%%%%	$2E(B\imp B)\leq E(B\imp B)+E(B\imp G)$.
-%%%%
-%%%%Po $\O(\log N)$ krocích nám zmizí všechny vrcholy.
+Hledáme nezávislou množinu v grafu \emph{MAXIMÁLNÍ VZHLEDEM K INKLUZI}.
 
-TODO: A jaky to ma aproximacni pomer? A proc?
-TODO: analyza
+Algoritmus: $I\gets\emptyset$, $d_v$ buď stupeň $v$. Dokud $V\neq\emptyset$:
+\begin{enumerate}
+\item Paralelně pro každý vrchol: když $d_v=0$, tak $I+=\{v\}$, $V-=\{v\}$.
+\item Paralelně pro každý vrchol: označ jej s pravděpodobností $\frac{1}{2d_v}$.
+\item Paralelně pro každou hranu $\{u,v\}$: když jsou $\{u,v\}$ oba označené,
+	odeber značku z toho z nich, co má menší stupeň.
+\item Ať $S$ jsou označené vrcholy a $N(S)$ jejich sousedé. $I+=S$ a $V-=(S\cup
+	N(S))$ a odeber hrany incidentní k $S\cup N(S)$.
+\end{enumerate}
+
+Vrchol je \emph{dobrý}, pokud má aspoň $d_v/3$ sousedů stupně nejvýše $d_v$,
+ostatní jsou \emph{špatné}. Hrana je dobrá, obsahuje-li dobrý vrchol, jinak je
+špatná.
+
+Lemma 1: je-li vrchol $v$ dobrý, tak nějakého jeho souseda označím s
+pravděpodobností $\geq 0.15$.
+Důkaz: $P[\text{neoznačím žádného souseda }v]\leq (1-\frac{1}{2d_v})^{d_v/3}\leq
+	e^{-1/6}<0.85$
+
+Lemma 2: Je-li vrchol $v$ označený, pak se dostane do $S$ s pravděpodobností
+	$\geq 1/2$.
+Důkaz: $P[\text{odeberu mu značku}]\leq d(v)\cdot\frac{1}{2d(v)}=1/2$
+
+Lemma 3: Dobrých hran je aspoň půlka.
+Důkaz: Zorientuj $G$: hrany z malých stupňů do velkých, vždy jenom jedna.
+	Je-li $v$ špatný, tak do něj vede nejvýš $d_v/3$ hran.
+	$E(V\imp v)\leq\frac{1}{2}E(v\imp V)$,
+	takže $2E(B\imp v)\leq E(v\imp V)=E(v\imp B)+E(v\imp G)$.
+	Posčítám to pro všechny špatné vrcholy, dostanu:
+	$2E(B\imp B)\leq E(B\imp B)+E(B\imp G)$.
+
+Po $\O(\log N)$ krocích nám zmizí všechny vrcholy.
+
+TODO: A k čemu že nám tohle bude...?
 
 \subsection{Množinové pokrytí}
 TODO: pro mnozinove pokryti
