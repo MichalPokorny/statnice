@@ -1,4 +1,4 @@
-all: pravdepodobnost.pdf site.pdf
+all: pravdepodobnost.pdf site.pdf algoritmy_a_optimalizace.pdf
 
 pravdepodobnost.pdf: pravdepodobnost.tex
 	pdflatex pravdepodobnost
