@@ -162,7 +162,8 @@ minimum.
 \item	Hladový algoritmus v každém kroku uvažuje pouze $S_j$ takové, že je má smysl koupit.
 	Koupí vždy tu, který má nejlepší poměr ``cena/výkon'', tedy v každém kroku kupuji
 	množinu minimalizující $\frac{c_j}{|S_j \setminus E|}$, kde $E$ je množina již koupených
-	prvků. Algoritmus dává ne moc dobrý $H_g$-apx poměr (harmonické číslo $g$).
+	prvků. Algoritmus dává ne apx poměr $H_g$ (harmonické číslo $g$, $:=
+	\sum^g_{1/i}\approx\ln g$).
 	Analýza je jednoduchá přes zjevný LP program a jeho duál (+komplementarita).
 
 	TODO: rozepsat analyzu
