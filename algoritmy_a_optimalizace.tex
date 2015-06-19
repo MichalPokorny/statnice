@@ -151,6 +151,14 @@ nakoupit takové množiny, že budeme mít všechny prvky systému a celkem zapl
 minimum.
 
 \begin{itemize}
+\item	Deterministické zaokrouhlování: vyřeš relaxovaný primární
+	program ("kupuju množiny, každou $\in[0;1]$-krát, každý prvek musím
+	nakoupit, minimalizuj cenu").
+	Nakup právě ty množiny, které jsem koupil více než $1/f$-krát.
+	$f$-aproximační: $\sum_{j\in I}w_j\leq\sum w_j(f\cdot w_j^*)=f\sum w_j
+	x_j^*=f\cdot OPT_{LP}\leq f\cdot OPT$
+
+
 \item	Hladový algoritmus v každém kroku uvažuje pouze $S_j$ takové, že je má smysl koupit.
 	Koupí vždy tu, který má nejlepší poměr ``cena/výkon'', tedy v každém kroku kupuji
 	množinu minimalizující $\frac{c_j}{|S_j \setminus E|}$, kde $E$ je množina již koupených
