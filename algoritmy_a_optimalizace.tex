@@ -233,7 +233,24 @@ Nastane, jakmile se paraboly $a,c$ protnou v jednom bodě s parabolu $b$.
 TODO: Víc detailů?
 
 \section{Aranžmá nadrovin}
-TODO
+Máme konečnou množinu $H$ nadrovin v $\R^d$. Buňky jsou komponenty souvislosti
+$\R^d \setminus \bigcup H_i$. Podobně vrcholy a obecně $k$-stěny. To vše dohromady
+je arrangement. Arrangement je jednoduchý, pokud je $H$ v obecné poloze (tzn. průnik
+libovolných $k$ nadrovin $\in H$ je $(d-k)$-rozměrný). Pro arrangementy bez svislých
+nadrovin definujeme pro každý bod $p$ úroveň jako počet nadrovin ostře pod bodem $p$.
+Úroveň stěny je úroveň libovolného jejího vrcholu. Hladina je množina stěn stejné
+úrovně $k$. Zóna nadroviny $g$ je množina bodů $x$, že úsečka z $x$ někam do $g$
+neprotíná jinou nadrovinu v $H$.
+
+\begin{itemize}
+\item Jednoduchý arrangement určený $n$ nadrovinami má $\sum\limits_{i=0}^d {n \choose i}$
+buněk.
+\item Clarsksonova o úrovních: Počet vrcholů arrangementu $n$ nadrovin na úrovni $\leq k$
+je $$\Theta(n^{\lfloor d/2 \rfloor} (k+1)^{\lceil d/2 \rceil})$$
+\item Věta o hladinách: Počet stěn hladiny $\leq k$ je \quad
+$O(n^{\lfloor d/2 \rfloor} (k+1)^{\lceil d/2 \rceil})$
+\item Věta o zóně: Počet stěn zóny (jedné konkrétní) nadroviny je $O(n^{d-1})$.
+\end{itemize}
 
 \section{Incidence bodů a přímek}
 Pro $G$ zakreslený do roviny v obecné poloze platí
