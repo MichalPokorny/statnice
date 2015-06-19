@@ -136,7 +136,12 @@ Důkaz: Zorientuj $G$: hrany z malých stupňů do velkých, vždy jenom jedna.
 
 Po $\O(\log N)$ krocích nám zmizí všechny vrcholy.
 
-TODO: A k čemu že nám tohle bude...?
+TODO: A k čemu že nám tohle bude...? \textit{Lemma 2a3 říká, že na konci jedné fáze
+bude označeno dost zbývajících vrcholů. Všechny je na konci jednoho cyklu
+algoritmu odebereme (plus jejich sousedy). Každá hrana navíc zmizí s pstí 
+$c := \frac{1}{2}e^{-1/6}$. Celkem průměrně zmizí $c\frac{|E|}{2}$ hran. Když v
+každém cyklu zabijeme dost hran/vrcholů, klesá jejich počet exponencielně, tedy stačí
+$\log{n}$ cyklů, což je podle všeho dost rychlé :)}
 
 \subsection{Množinové pokrytí}
 Máme systém všech prvků $\{1, \ldots, n\}$ a systém jeho podmnožin $S_1, \ldots,
