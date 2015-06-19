@@ -49,15 +49,17 @@ Max-2-SAT je NP-těžký.
 	7/8-aproximační algoritmus. Pro Max-E3-SAT nic lepšího nejde.
 
 \item Biased-SAT: podíváme se pro každou proměnnou, jestli se vícekrát vyskytne
-	jako jednotková klauzule $x$, nebo $\neg x$. Když se $x$ vyskytuje
-	víckrát než $\neg x$, zvol $x=1$ s pravděpodobností
+	jako jednotková klauzule $\{x\}$, nebo $\{\neg x\}$. Když se $\{x\}$ vyskytuje
+	víckrát než $\{\neg x\}$, zvol $x=1$ s pravděpodobností
 	$\phi-1=(\sqrt{5}-1)/2\approx 0.618$, jinak obráceně ($2-\phi$).
 
 	Biased-SAT je $\phi-1$-aproximační.
-	Bez újmy na obecnosti vyruš po dvojicích jednotkové klauzule $(x_i)$
-	a $(\neg x_i)$ -- platí jenom jedna polovina z nich, tohle vyrušení
+	Bez újmy na obecnosti vyruš po dvojicích jednotkové klauzule $\{x\}$
+	a $\{\neg x\}$ -- platí jenom jedna polovina z nich, tohle vyrušení
 	nezhorší aproximační poměr.
-	TODO: Tohle Prvák nechápe.
+	TODO: Tohle Prvák nechápe. \textit{Náš algoritmus jednu z těchhle 
+	klauzulí splní, stejně jako by to udělalo optimum. Tedy pokud tyto případy 
+	ignorujeme, děláme dolní odhad na skutečnou úspěšnost algoritmu.}
 
 	Klauzule délky 1 je splněna s pravděpodobností $\phi-1$,
 	ostatní splněny s pravděpodobností aspoň $1-(\phi-1)^k\geq
